@@ -1,0 +1,7 @@
+# Cloudflare Pages redirects — preserves partner referral links from the old Webflow site.
+# TODO(Shawn): replace the example paths below with the ACTUAL old Webflow URL paths,
+# then delete any lines that don't apply. Format: /old-path  /new-path  301
+# /tours              /                                   301
+# /north-beach        /tours/north-beach/                 301
+# /valley-of-the-queens  /tours/valley-of-the-queens/     301
+# /book               /                                   301
