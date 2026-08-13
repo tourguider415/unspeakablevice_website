@@ -34,11 +34,13 @@
   let ticking = false;
   function parallax() {
     const vh = innerHeight;
+    const amp = isDesktop() ? -18 : -6;      // gentler on mobile
+    const zoom = isDesktop() ? 1.3 : 1.1;
     plx.forEach(img => {
       const r = img.parentElement.getBoundingClientRect();
       if (r.bottom < 0 || r.top > vh) return;
-      const progress = (r.top + r.height / 2 - vh / 2) / vh; // -0.5..0.5-ish
-      img.style.transform = `translateY(${progress * -18}%) scale(1.3)`;
+      const progress = (r.top + r.height / 2 - vh / 2) / vh;
+      img.style.transform = `translateY(${progress * amp}%) scale(${zoom})`;
     });
     ticking = false;
   }
@@ -49,52 +51,20 @@
 
   /* ---------- Hide/reveal header ---------- */
   const header = document.querySelector('.site-header');
+  const headerH = () => header.offsetHeight;
   let lastY = scrollY;
   addEventListener('scroll', () => {
     const y = scrollY;
-    const down = y > lastY;
-    if (y < 10) {
+    const d = y - lastY;
+    if (Math.abs(d) < 12) return;            // hysteresis: ignore micro-scrolls
+    if (y <= headerH()) {                    // near the top: full header, no toggling
       header.classList.remove('hdr-hide', 'hdr-mini');
-    } else if (down) {
+    } else if (d > 0) {
       header.classList.add('hdr-hide');
-      header.classList.remove('hdr-mini');
     } else {
       header.classList.remove('hdr-hide');
       if (isDesktop()) header.classList.add('hdr-mini');
     }
     lastY = y;
   }, { passive: true });
-
-  /* ---------- Trans flag cursor streak (fine pointers only) ---------- */
-  if (matchMedia('(pointer: fine)').matches) {
-    const colors = ['#5BCEFA', '#F5A9B8', '#FFFFFF', '#F5A9B8', '#5BCEFA'];
-    const canvas = document.createElement('canvas');
-    canvas.setAttribute('aria-hidden', 'true');
-    canvas.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9999;';
-    document.body.appendChild(canvas);
-    const ctx = canvas.getContext('2d');
-    const fit = () => { canvas.width = innerWidth; canvas.height = innerHeight; };
-    fit(); addEventListener('resize', fit);
-
-    const pts = [];
-    let ci = 0;
-    addEventListener('pointermove', e => {
-      pts.push({ x: e.clientX, y: e.clientY, life: 1, c: colors[ci++ % colors.length] });
-      if (pts.length > 60) pts.shift();
-    });
-    (function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (const p of pts) {
-        p.life -= 0.03;
-        if (p.life <= 0) continue;
-        ctx.globalAlpha = p.life * 0.9;
-        ctx.fillStyle = p.c;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 5 * p.life, 0, Math.PI * 2);
-        ctx.fill();
-      }
-      ctx.globalAlpha = 1;
-      requestAnimationFrame(draw);
-    })();
-  }
 })();
