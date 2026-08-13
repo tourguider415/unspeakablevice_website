@@ -120,8 +120,8 @@ a { color: inherit; }
 .btn-outline:hover { background: var(--white); color: var(--black); }
 
 .book-fab {
-  position: fixed; right: var(--pad-x); bottom: 40px; z-index: 50;
-  background: var(--gold); color: var(--black);
+  position: fixed; left: 40px; right: 40px; bottom: 40px; z-index: 50;
+  background: var(--gold); color: var(--black); text-align: center;
   font-family: var(--font-body); font-size: 16px; text-transform: uppercase;
   text-decoration: none; padding: 8px 24px;
 }
@@ -211,6 +211,13 @@ a { color: inherit; }
 .tour-logos a { flex: 0 1 auto; }
 .tour-logos img { max-height: 182px; width: auto; max-width: 100%; }
 .tour-logos .tilt { transform: rotate(-4deg); }
+/* Recolor cream SVG exports to the muted pink from the Figma home frame (#835350).
+   Filter chain was tuned live against a #835350 swatch. */
+.tour-logos img {
+  filter: brightness(0) saturate(100%) invert(40%) sepia(24%) saturate(700%)
+          hue-rotate(322deg) brightness(98%) contrast(85%);
+}
+.tour-logos a:hover img { filter: none; }
 
 .intro-row { display: flex; gap: 88px; align-items: flex-start; flex-wrap: wrap; }
 
@@ -272,5 +279,5 @@ a { color: inherit; }
 
   .trilogy-band { flex-direction: column; }
   .tour-logos { justify-content: center; }
-  .book-fab { right: 20px; }
+  .book-fab { left: auto; right: 20px; bottom: 20px; text-align: left; }
 }
