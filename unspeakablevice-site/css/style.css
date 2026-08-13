@@ -384,3 +384,8 @@ img.plx { will-change: transform; }
 /* Trilogy band: the sentence itself is a link */
 .trilogy-link p a { text-decoration: none; }
 .trilogy-link p a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+/* v3.1: partner logos at half size, linked */
+.partner-logos img { max-height: 60px; }
+.partner-logos a { display: inline-flex; }
+@media (max-width: 820px) { .partner-logos img { max-height: 30px; } }
