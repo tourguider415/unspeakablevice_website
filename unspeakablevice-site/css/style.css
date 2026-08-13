@@ -389,3 +389,17 @@ img.plx { will-change: transform; }
 .partner-logos img { max-height: 60px; }
 .partner-logos a { display: inline-flex; }
 @media (max-width: 820px) { .partner-logos img { max-height: 30px; } }
+
+/* v3.2: mobile header = mark left, menu button right, one row */
+@media (max-width: 820px) {
+  .site-header, .site-header--home {
+    flex-direction: row; align-items: center; justify-content: space-between;
+    gap: 16px; padding: 16px 20px;
+  }
+  .site-header .logo-lockup .logo-text,
+  .site-header--home .logo-lockup .logo-text { display: none; }
+  .site-header .logo-lockup img,
+  .site-header--home .logo-lockup img { width: 44px; height: 44px; }
+  .menu-toggle { align-self: auto; order: 2; }
+  .site-nav { order: 3; flex-basis: 100%; }
+}
