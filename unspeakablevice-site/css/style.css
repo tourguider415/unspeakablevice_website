@@ -281,3 +281,80 @@ a { color: inherit; }
   .tour-logos { justify-content: center; }
   .book-fab { left: auto; right: 20px; bottom: 20px; text-align: left; }
 }
+
+/* ============================================================
+   v2 revisions — spacing, motion, nav behavior, fixes
+   ============================================================ */
+
+/* Standardized section rhythm; doubled on desktop */
+:root { --section-gap: 80px; }
+@media (min-width: 821px) { :root { --section-gap: 240px; } }
+.section, .statement { padding-top: var(--section-gap); padding-bottom: 0; }
+.statement { padding-bottom: 0; }
+.photo-band, .photo-strip, .trilogy-band { margin-top: var(--section-gap); }
+.site-footer { margin-top: var(--section-gap); }
+
+/* 40px gap between the nav links and the imagery below the header */
+.site-header { padding-bottom: 40px; }
+
+/* Sticky hide/reveal header */
+.site-header {
+  position: sticky; top: 0; z-index: 60; background: var(--black);
+  transition: transform 0.3s ease;
+}
+.site-header.hdr-hide { transform: translateY(-100%); }
+@media (min-width: 821px) {
+  .site-header.hdr-mini { flex-direction: row; align-items: center; padding: 12px var(--pad-x); }
+  .site-header.hdr-mini .logo-lockup img,
+  .site-header--home.hdr-mini .logo-lockup img { width: 40px; height: 40px; }
+  .site-header.hdr-mini .logo-lockup .logo-text,
+  .site-header--home.hdr-mini .logo-lockup .logo-text { font-size: 18px; }
+  .site-header.hdr-mini .site-nav ul { flex-direction: row; gap: 40px; font-size: 16px; }
+}
+
+/* Animate-in (classes are added by JS; no-JS stays fully visible) */
+.anim-h { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.anim-b { opacity: 0; transform: translateY(16px); transition: opacity 0.35s ease, transform 0.35s ease; }
+.anim-h.in, .anim-b.in { opacity: 1; transform: none; }
+
+/* Parallax plumbing */
+.full-photo, .hero-photo, .photo-band > *, .photo-strip > * { overflow: hidden; }
+.photo-band .rounded, .photo-strip .rounded { border-radius: 70px; }
+.photo-band .rounded img, .photo-strip .rounded img { border-radius: 0; }
+img.plx { will-change: transform; }
+
+/* BOOK button: centered pill on desktop, full-width bottom bar on mobile */
+.book-fab {
+  left: 50%; right: auto; transform: translateX(-50%);
+  bottom: 40px; text-align: center; padding: 8px 24px; width: auto;
+}
+@media (max-width: 820px) {
+  .book-fab { left: 0; right: 0; bottom: 0; transform: none; padding: 14px 24px; }
+}
+
+/* Home tour logos: half size; hover goes white for all three */
+.tour-logos img { max-height: 91px; }
+.tour-logos a:hover img { filter: brightness(0) invert(1); }
+
+/* Archive photo strip: 300px / 40px gaps, taller crops */
+.photo-strip { display: flex; grid-template-columns: none; gap: 40px; }
+.photo-strip > * { height: auto; aspect-ratio: 3 / 4; width: clamp(200px, 22vw, 340px); }
+.photo-strip > :first-child { margin-right: 260px; } /* 260 + 40 gap = ~300px */
+@media (max-width: 820px) {
+  .photo-strip { flex-direction: column; }
+  .photo-strip > * { width: 100%; aspect-ratio: 3 / 4; }
+  .photo-strip > :first-child { margin-right: 0; }
+}
+
+/* Mobile: partner and tour logos at half size */
+@media (max-width: 820px) {
+  .tour-logos img { max-height: 46px; }
+  .partner-logos img { max-height: 60px; }
+}
+
+/* Trilogy band: double the headline */
+.trilogy-band .hook { font-size: clamp(56px, 10vw, 192px); max-width: none; flex: 1; }
+.trilogy-band { align-items: center; }
+
+/* Targeted image reframing (e.g. Gladys Bentley crop on North Beach) */
+.focus-top img { object-position: center 12%; }
